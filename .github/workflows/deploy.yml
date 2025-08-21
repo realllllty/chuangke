@@ -1,0 +1,33 @@
+name: Build and Deploy to Surge
+
+on:
+  push:
+    branches: [ main ] 
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the project
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: v24
+
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+
+      - name: Build the project
+        run: pnpm run build 
+
+      - name: Deploying to Surge
+        uses: mahmoudgalalz/surge-action@v0.1.5
+        with:
+          domain: 'chuangke.surge.sh'
+          path: './dist'
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}

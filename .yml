@@ -1,2 +1,0 @@
-- name: Surge Github Action
-  uses: Mahmoudgalalz/surge-action@v0.1.6
